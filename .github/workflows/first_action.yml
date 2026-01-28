@@ -1,0 +1,58 @@
+name: CI_Pipeline
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 120
+    steps:
+      - name: checkoout_code
+        uses: actions/checkout@v6.0.2
+        with:
+          clean:
+      - name: install_nodejs
+        uses: actions/setup-node@v6.2.0
+        with: 
+          node-version: 16.0.0
+      - name: check-files
+        run: |
+           echo "#### list files ###"
+           pwd
+           ls -lah    
+           echo "SHA: $GITHUB_SHA"
+           echo "REF: $GITHUB_REF"
+      - name: NPM_instal
+        run: |
+            echo "###### NPM Install #####"
+            npm install
+            echo "### List file ####"
+            ls -lah
+
+            echo "### Node Version ###"
+            node -v
+            
+      - name: build_and_test
+        run: |
+           echo "##### build ###"
+           npm run build
+
+           echo "#### test ###"
+           npm run test
+           echo "### list files ##"
+           ls -lah
+           
+        
+          
+
+
+
+
+        
+      
+      
