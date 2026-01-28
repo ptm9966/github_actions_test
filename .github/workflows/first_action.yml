@@ -47,7 +47,30 @@ jobs:
            echo "### list files ##"
            ls -lah
            
-        
+  deploy: 
+   runs-on: ubuntu-22.04
+   needs: build
+   name: deployment
+   steps:
+      - name: check-files
+        run: |
+           echo "#### list files ###"
+           pwd
+           ls -lah    
+           echo "SHA: $GITHUB_SHA"
+           echo "REF: $GITHUB_REF"
+           echo "event_name=$GITHUB_EVENT_NAME"
+           echo "ref=$GITHUB_REF"
+           echo "ref_name=${{ github.ref_name }}"
+           echo "base_ref=${{ github.base_ref }}"
+           echo "head_ref=${{ github.head_ref }}"
+      - name: deploy
+        run: |
+            echo "#### deploying ###"
+
+       
+ 
+   
           
 
 
